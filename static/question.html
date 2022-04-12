@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Base">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sticky-footer-navbar/">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/topbar.css">
+
+    <link href="/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="logo">
+                ASKMEASKME
+            </div>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" style="min-width: 80px;" type="submit">ASK!</button>
+            </form>
+            <div class="topbar-right-panel">
+                <div class="avatar">
+                </div>
+                <div style="flex-direction: column; margin-left: 10px; ">
+                    <div class="nickname">
+                        Nick
+                    </div>
+                    <div class="topbar-right-panel-buttons">
+                        <button class="btn btn-outline-success" type="submit">settings</button>
+                        <button class="btn btn-outline-success" type="submit">log out</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="topbar-right-panel">
+                <div class="topbar-right-panel-buttons">
+                    <button class="btn btn-outline-success" type="submit">register</button>
+                    <button class="btn btn-outline-success" type="submit">log in</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="content-container">
+            <div class="main-container">
+                <div class="main-content">
+                    <div class="questions-list">
+                        <div class="question-item" style="border:none">
+                            <div class="av_and_counter">
+                                <div class="avatar-question" style="width: 100px; height: 100px;">
+                                    avatar
+                                </div>
+                                <div class="counter">
+                                    <div style="margin:5px;">10</div>
+                                    <button class="pagebtn">+</button>
+                                    <button class="pagebtn">-</button>
+                                </div>
+                            </div>
+                            <div class="question_item_fields">
+                                <h3>Question:...</h3>
+                                <p>Description:...</p>
+                                <div class="question_item_tags">
+                                    tags:
+                                    <div class="tag">tag1</div>
+                                    <div class="tag">tag2</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="color:black">
+
+                        <div class="question-item">
+                            <div class="av_and_counter">
+                                <div class="avatar-question">
+                                    avatar
+                                </div>
+                                <div class="counter">
+                                    <div style="margin:5px;">10</div>
+                                    <button class="pagebtn">+</button>
+                                    <button class="pagebtn">-</button>
+                                </div>
+                            </div>
+                            <div class="question_item_fields">
+                                <p>Answer:...............
+                                    .....................
+                                    .....................
+                                    ...............
+                                </p>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input">
+                                    <label class="form-check-label">Mark as answer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-item">
+                            <div class="av_and_counter">
+                                <div class="avatar-question">
+                                    avatar
+                                </div>
+                                <div class="counter">
+                                    <div style="margin:5px;">10</div>
+                                    <button class="pagebtn">+</button>
+                                    <button class="pagebtn">-</button>
+                                </div>
+
+                            </div>
+                            <div class="question_item_fields">
+                                <p>Answer:...............
+                                    .....................
+                                    .....................
+                                    ...............
+                                </p>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input">
+                                    <label class="form-check-label">Mark as answer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <form style="width: 100%;">
+                            <div class="mb-3">
+                                <label class="form-label">Enter your answer (1000 symbols max)</label>
+                                <textarea class="form-control" rows="5" maxlength="1000"></textarea>
+                                <div class="form-text">Text/Error message</div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-success">Answer</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <h3>Popular Tags</h3>
+                    <div class="popular-tags">
+                        <div class="tag">Тег1</div>
+                        <div class="tag">Тег5454554</div>
+                        <div class="tag">Тег666</div>
+                        <div class="tag">Тег3</div>
+                        <div class="tag">Тег55</div>
+                        <div class="tag">Тег33</div>
+                    </div>
+                    <h3>Best Members</h3>
+                    <div class="best-members">
+                        <a>Пользователь 1</a>
+                        <a>Пользователь 2</a>
+                        <a>Пользователь 3</a>
+                        <a>Пользователь 4</a>
+                        <a>Пользователь 5</a>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="pagebtn">1</div>
+                <div class="pagebtn">2</div>
+                <div class="pagebtn">3</div>
+                <div class="pagebtn">...</div>
+                <div class="pagebtn">100</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

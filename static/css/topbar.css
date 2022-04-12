@@ -1,0 +1,43 @@
+.top-bar {
+    display: flex;
+    position: sticky;
+    top:0;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px -20px 10px -20px;
+    padding: 10px 5px;
+    background-color: black;
+    border-radius: 2px;
+  }
+.logo{
+    padding: 15px;
+    /* background-color: blue; */
+    align-self: center;
+    color:white;
+}
+.avatar{
+    height: 100%;
+    width: 60px;
+    align-self: center;
+    background-color: white;
+}
+.topbar-right-panel{
+    display: flex;
+    width: fit-content;
+    flex-direction: row;
+    align-items: center;
+    /* background-color: blue; */
+}
+.nickname{
+    color:white;
+}
+.topbar-right-panel-buttons{
+    display: flex;
+    height: 40px;
+    padding: 3px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: green; */
+}
