@@ -1,0 +1,22 @@
+{% load static %}
+<div class="question-item">
+    <div class="av_and_counter">
+        <img class="avatar-question" src="{% static 'img/ava.png' %}">
+        <div class="counter">
+            <div style="margin:5px;">10</div>
+            <button class="pagebtn">+</button>
+            <button class="pagebtn">-</button>
+        </div>
+
+    </div>
+    <div class="question_item_fields">
+        <h3><a href = "{% url 'question' question.id %}">{{question.title}}</a></h3>
+        <p>{{question.text}}</p>
+        <a>anw(x)</a>
+        <div class="question_item_tags">
+            tags:
+            <div class="tag">tag1</div>
+            <div class="tag">tag2</div>
+        </div>
+    </div>
+</div>

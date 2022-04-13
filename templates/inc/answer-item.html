@@ -1,0 +1,18 @@
+{% load static %}
+<div class="question-item">
+    <div class=" av_and_counter">
+        <img class="avatar-question" src="{% static 'img/ava.png' %}">
+        <div class="counter">
+            <div style="margin:5px;">10</div>
+            <button class="pagebtn">+</button>
+            <button class="pagebtn">-</button>
+        </div>
+    </div>
+    <div class="question_item_fields">
+        <p>{{answer.text}}</p>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input">
+            <label class="form-check-label">Mark as answer</label>
+        </div>
+    </div>
+</div>

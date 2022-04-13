@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content%}
+<div style="display:flex; flex-direction: row; align-items: center">
+    <h2>New Questions</h2>
+    <a style="margin-left:10px" href="{% url 'hot' %}">Hot Questions</a>
+</div>
+
+<div class="questions-list">
+  {% for question in questions%}
+  {% include "inc/question-item.html" %}
+  {% endfor %}
+</div>
+<div class="bottom">
+    <div class="pagebtn">1</div>
+    <div class="pagebtn">2</div>
+    <div class="pagebtn">3</div>
+    <div class="pagebtn">...</div>
+    <div class="pagebtn">100</div>
+  </div>
+{% endblock content%}

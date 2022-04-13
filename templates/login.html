@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content%}
+<h2>Log In</h2>
+<form style="width: 100%;">
+    <div class="form-text">Text/Error message</div>
+    <div class="mb-3">
+        <label class="form-label">Login</label>
+        <input class="form-control" maxlength="40" required autocomplete>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" maxlength="40" required type="password">
+    </div>
+    <button type="submit" class="btn btn-outline-success">Log in</button>
+    <button class="btn btn-outline-success">Create new account</button>
+</form>
+{% endblock content%}

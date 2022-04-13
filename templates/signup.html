@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content%}
+<h2>Sign Up</h2>
+<form style="width: 100%;">
+    <div class="form-text">Text/Error message</div>
+    <div class="mb-3">
+        <label class="form-label">Login</label>
+        <input class="form-control" maxlength="40" required autocomplete>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" maxlength="40" required type="email">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Nickname</label>
+        <input class="form-control" maxlength="40" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" maxlength="40" required type="password">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Repeat Password</label>
+        <input class="form-control" maxlength="40" required type="password">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Upload avatar</label>
+        <input class="form-control" readonly hidden>
+        <button class="btn btn-outline-success">Choose file</button>
+    </div>
+
+    <button type="submit" class="btn btn-outline-success">Register</button>
+</form>
+{% endblock content%}

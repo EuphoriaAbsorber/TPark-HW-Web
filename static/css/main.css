@@ -1,3 +1,10 @@
+a{
+  text-decoration: none;
+  color:rgb(0, 107, 57);
+}
+a:hover{
+  color:rgb(0, 107, 57);
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -23,6 +30,7 @@
 }
 .main-content{
   display: flex;
+  flex-direction: column;
   width: 65%;
   margin: 5px;
   /* background-color: aqua; */
@@ -46,7 +54,7 @@
   /* background-color: yellow; */
 }
 .tag{
-  margin: 0px 5px;
+  margin: 0px 15px;
 }
 .best-members{
   display: flex;

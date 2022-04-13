@@ -1,0 +1,22 @@
+{% load static %}
+<div class="question-item" style="border:none">
+    <div class="av_and_counter">
+        <img class="avatar-question" style="width: 100px; height: 100px;"
+        src="{% static 'img/ava.png' %}">
+        <div class="counter">
+            <div style="margin:5px;">10</div>
+            <button class="pagebtn">+</button>
+            <button class="pagebtn">-</button>
+        </div>
+
+    </div>
+    <div class="question_item_fields">
+        <h2>{{question.title}}</h2>
+        <p>{{question.text}}</p>
+        <div class="question_item_tags">
+            tags:
+            <div class="tag">tag1</div>
+            <div class="tag">tag2</div>
+        </div>
+    </div>
+</div>
