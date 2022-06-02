@@ -1,0 +1,43 @@
+{% load static %}
+
+<div class="bottom">
+
+    <a href="?page=1">
+        {% if not questions.has_previous %}
+        <div class="pagebtn" style = "background-color: black">1</div>
+        {% else %}
+        <div class="pagebtn">1</div>
+        {% endif %}
+    </a>
+
+    {% if questions.has_previous and questions.previous_page_number != 1 %}
+        <div class="pagebtn">...</div>
+        <a href="?page={{questions.previous_page_number}}">
+            <div class="pagebtn">{{questions.previous_page_number}}</div>
+        </a>
+    {% endif %}
+
+    {% if questions.has_previous and questions.has_next %}
+        <a href="?page={{questions}}">
+            <div class="pagebtn" style = "background-color: black">{{questions.previous_page_number|add:1}}</div>
+        </a>
+    {% endif %}
+
+    {% if questions.has_next and questions.next_page_number != questions.paginator.num_pages %}
+        <a href="?page={{questions.next_page_number}}">
+            <div class="pagebtn">{{questions.next_page_number}}</div>
+        </a>
+        <div class="pagebtn">...</div>
+    {% endif %}
+
+    {% if questions.paginator.num_pages != 1 %}
+        <a href="?page={{questions.paginator.num_pages}}">
+            {% if not questions.has_next %}
+            <div class="pagebtn" style = "background-color: black">{{questions.paginator.num_pages}}</div>
+            {% else %}
+            <div class="pagebtn">{{questions.paginator.num_pages}}</div>
+            {% endif %}
+        </a>
+    {% endif %}
+    
+</div>

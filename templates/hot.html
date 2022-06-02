@@ -8,11 +8,7 @@
   {% include "inc/question-item.html" %}
   {% endfor %}
 </div>
-<div class="bottom">
-    <div class="pagebtn">1</div>
-    <div class="pagebtn">2</div>
-    <div class="pagebtn">3</div>
-    <div class="pagebtn">...</div>
-    <div class="pagebtn">100</div>
-  </div>
+{% block pag %}
+    {% include "inc/pagination.html" %}
+{% endblock pag %}
 {% endblock content%}

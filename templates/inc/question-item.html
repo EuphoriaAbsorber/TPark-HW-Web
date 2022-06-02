@@ -3,7 +3,7 @@
     <div class="av_and_counter">
         <img class="avatar-question" src="{% static 'img/ava.png' %}">
         <div class="counter">
-            <div style="margin:5px;">10</div>
+            <div style="margin:5px;">{{question.rating}}</div>
             <button class="pagebtn">+</button>
             <button class="pagebtn">-</button>
         </div>
@@ -12,11 +12,14 @@
     <div class="question_item_fields">
         <h3><a href = "{% url 'question' question.id %}">{{question.title}}</a></h3>
         <p>{{question.text}}</p>
-        <a>anw(x)</a>
+        <a>Author: {{question.author.username}}</a>
         <div class="question_item_tags">
             tags:
-            <div class="tag">tag1</div>
-            <div class="tag">tag2</div>
+            {% for tag in question.tags.all %}
+            <a class="tag" href="{% url 'tag' tag.name %}">{{tag.name}}</a>
+            {% endfor %}
+            
+            
         </div>
     </div>
 </div>
