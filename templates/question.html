@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block content%}
 <div class="questions-list">
@@ -9,12 +10,14 @@
         {% include "inc/answer-item.html" %}
     {% endfor %}
 </div>
-<form style="width: 100%;">
-    <div class="mb-3">
-        <label class="form-label">Enter your answer (1000 symbols max)</label>
-        <textarea class="form-control" rows="5" maxlength="1000"></textarea>
-        <div class="form-text">Text/Error message</div>
-    </div>
+{% if user.is_authenticated %}
+<hr>
+<form style="width: 100%;"  method = "POST">
+    {% csrf_token %}
+    <label class="form-label">Enter your answer (1000 symbols max)</label>
+    <div>{% bootstrap_form form %}</div>
+    <hr>
     <button type="submit" class="btn btn-outline-success">Answer</button>
 </form>
+{% endif %}
 {% endblock content%}

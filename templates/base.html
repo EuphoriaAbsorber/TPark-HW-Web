@@ -24,23 +24,25 @@
       <input class="form-control me-2" type="search" style="max-width: 400px;" placeholder="Search" aria-label="Search">
       </form>
 
+      {% if user.is_authenticated %}
       <form action="{% url 'ask' %}" style="margin: 0px 2px; display:flex; justify-content: center">
         <button class="btn btn-outline-success" style="min-width: 80px;" type="submit">ASK!</button>
       </form>
-
-      <!-- <div class="topbar-right-panel">
+      
+      <div class="topbar-right-panel">
         <img class="avatar" src="{% static 'img/ava.png' %}">
 
         <div style="flex-direction: column; margin-left: 10px; ">
-          <div class="nickname">
-            Nick
-          </div>
+          <div class="nickname">{{user.get_username}}</div>
           <div class="topbar-right-panel-buttons">
-            <button class="btn btn-outline-success" type="submit">settings</button>
-            <button class="btn btn-outline-success" type="submit">log out</button>
+            <!-- <button class="btn btn-outline-success" type="submit">Settings</button> -->
+            <a href='{% url "settings" %}' class="btn btn-outline-success">Settings</a>
+            <a href='{% url "logout" %}' class="btn btn-outline-success">Quit</a>
           </div>
         </div>
-      </div> -->
+      </div>
+
+      {% else %}
       <div class="topbar-right-panel">
         <div class="topbar-right-panel-buttons">
           <form action="{% url 'login' %}" style="margin: 0px 2px">
@@ -52,6 +54,8 @@
 
         </div>
       </div>
+
+      {% endif %}
     </div>
 
     <div class="content-container">

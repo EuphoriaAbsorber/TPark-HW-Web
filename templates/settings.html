@@ -3,8 +3,8 @@
 {% load bootstrap4 %}
 
 {% block content%}
-<h2>Sign Up</h2>
-<form style="width: 100%;" action = "/signup" method = "POST">
+<h2>Profile Settings</h2>
+<form style="width: 100%;" action = "/settings" method = "POST">
     {% csrf_token %}
     <hr>
     <div>{% bootstrap_form form %}</div>
@@ -15,6 +15,6 @@
         <button class="btn btn-outline-success">Choose file</button>
     </div>
 
-    <button type="submit" class="btn btn-outline-success">Register</button>
+    <button type="submit" class="btn btn-outline-success">Save changes</button>
 </form>
 {% endblock content%}

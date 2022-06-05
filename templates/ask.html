@@ -1,24 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block content%}
 <h2>New Question</h2>
-<form style="width: 100%;">
-    <div class="mb-3">
-        <label class="form-label">Question title (40 symbols max)</label>
-        <input class="form-control" id="titleInput" maxlength="40">
-        <div class="form-text">Text/Error message</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Ask something (1000 symbols max)</label>
-        <textarea class="form-control" rows="5" maxlength="1000"></textarea>
-        <div class="form-text">Text/Error message</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Tags</label>
-        <input type="text" class="form-control">
-        <div class="form-text">Text/Error message</div>
-    </div>
+<form style="width: 100%;" action = "/ask" method = "POST">
+    {% csrf_token %}
+    <div>{% bootstrap_form form %}</div>
+    <hr>
     <button type="submit" class="btn btn-outline-success">Ask!</button>
 </form>
 {% endblock content%}
