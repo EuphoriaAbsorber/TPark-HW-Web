@@ -46,10 +46,10 @@
       <div class="topbar-right-panel">
         <div class="topbar-right-panel-buttons">
           <form action="{% url 'login' %}" style="margin: 0px 2px">
-            <button class="btn btn-outline-success" type="submit">log in</button>
+            <button class="btn btn-outline-success" type="submit">Log in</button>
           </form>
           <form action="{% url 'signup' %}" style="margin: 0px 2px">
-            <button class="btn btn-outline-success" type="submit">sign up</button>
+            <button class="btn btn-outline-success" type="submit">Sign up</button>
           </form>
 
         </div>
@@ -67,15 +67,13 @@
         </div>
         <div class="right-content">
           <h3>Popular Tags</h3>
+          
           <div class="popular-tags">
-            <a class="tag" href="{% url 'tag' 'tag1' %}">tag1</a>
-            <a class="tag" href="{% url 'tag' 'tag554' %}">tag554</a>
-            <a class="tag" href="{% url 'tag' 'tag666' %}">tag666</a>
-            <a class="tag" href="{% url 'tag' 'tag3' %}">tag3</a>
-            <a class="tag" href="{% url 'tag' 'tag55' %}">tag55</a>
-            <a class="tag" href="{% url 'tag' 'tag33' %}">tag33</a>
-
+          {% for t in tags%}
+          <a class="tag" href="{% url 'tag' t.name %}">{{t.name}}</a>
+          {% endfor %}
           </div>
+  
           <h3>Best Members</h3>
           <div class="best-members">
             <a>Пользователь 1</a>

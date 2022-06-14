@@ -10,7 +10,7 @@ class Command(BaseCommand):
         tagList = []
         tagCount = 1000
         for i in range(tagCount):
-            tag = Tag(name = "tag" + f'{i}')
+            tag = Tag(name = "tag" + f'{i}', questionsCount = 0)
             tagList.append(tag)
         Tag.objects.bulk_create(tagList, tagCount)
 
@@ -36,17 +36,21 @@ class Command(BaseCommand):
                          title = "Question " + f" {i+1}",
                          text =  "Question Text " + f" {i+1}",
                          author = user,
-                         rating = randrange(-10000, 10000))
+                         rating = 0)
             q.save()
+            
             for j in range(randrange(1, 6)):
-                q.tags.add(tagList[randrange(0, tagCount)])
-                q.save()
-
+                tag = tagList[randrange(0, tagCount)]
+                q.tags.add(tag)
+                
+                tag.questionsCount += 1
+                tag.save()
+            q.save()
             questionList.append(q)
         #Question.objects.bulk_create(questionList, questionCount)
 
         answerList = []
-        answerCount = 3000
+        answerCount = 2000
 
         for i in range(answerCount):
             user = userList[randrange(0, userCount)]
@@ -54,7 +58,25 @@ class Command(BaseCommand):
             ans = Answer(text =  "Answer Text " + f" {i}",
                          author = user,
                          question  = questionList[randrange(0, questionCount)],
-                         rating = randrange(-100, 100))
+                         rating = 0)
+                    
             answerList.append(ans)
         Answer.objects.bulk_create(answerList, answerCount)
+
+        for u in userList:
+            for q in questionList:
+                rand = randrange(0,3) - 1
+                if(rand != 0):
+                    like = LikeQuestion(question = q, user = user, value = rand)
+                    q.rating += rand
+                    q.save()
+                    like.save()
+
+            for a in answerList:
+                rand = randrange(0,3) - 1
+                if(rand != 0):
+                    like = LikeAnswer(answer = a, user = user, value = rand)
+                    a.rating += rand
+                    a.save()
+                    like.save()
 

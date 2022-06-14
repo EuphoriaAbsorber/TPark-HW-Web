@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from app import views
 from django.contrib.auth.views import LogoutView
+
 from askme.settings import LOGOUT_REDIRECT_URL
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path('tag/<str:s>', views.tag, name="tag"),
     path('logout/', LogoutView.as_view(next_page = LOGOUT_REDIRECT_URL), name = "logout"),
     path('settings', views.settings, name="settings"),
+    re_path(r'^', views.handler404),
 ]

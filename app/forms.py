@@ -48,6 +48,7 @@ class SignUpForm(forms.Form):
         return dataPassword2
 
 class QuestionForm(forms.ModelForm):
+    tags = forms.CharField(label='Tags', max_length=100)
     class Meta:
         model = Question
         fields = ["title", "text", "tags"]
@@ -60,6 +61,12 @@ class QuestionForm(forms.ModelForm):
         data = self.cleaned_data['text']
         return data
 
+    def clean_tags(self):
+        tagList = []
+        data = self.cleaned_data['tags']
+        tagList = data.split()
+        return tagList
+        
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer

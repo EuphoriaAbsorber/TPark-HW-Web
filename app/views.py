@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate
 from django.core.paginator import Paginator
+from django.core.cache import cache
 from app.models import *
 from app.forms import *
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.defaults import page_not_found
 
 
 def paginate(objects_list, request, per_page = 5):
@@ -13,29 +15,39 @@ def paginate(objects_list, request, per_page = 5):
     res = paginator.get_page(page)
     return res
 
+def handler404(request):
+    return HttpResponse(status = 404)
+
 def index(request):
     questions = Question.objects.returnHot()
     q = paginate(questions, request)
-    return render(request, "index.html", {"questions": q})
+    tags = Tag.objects.filterByQuestionCount()[:10]
+    return render(request, "index.html", {"questions": q, "tags": tags})
 
 def question(request, id:int):
-    q = Question.objects.get(id=id)
-    ans = Answer.objects.filter(question_id=id)
-    if request.method == "GET":
-        answer_form = AnswerForm()
-    if request.method == "POST":
-        answer_form = AnswerForm(request.POST)
-        if answer_form.is_valid():
-            text = answer_form.cleaned_data['text']
-            a = Answer(text =  text, author = request.user, question  = q, rating = 0)
-            a.save()
-        answer_form.clean()
-    return render(request, "question.html", {"question": q, "answers": ans, "form": answer_form})
+    try:
+        q = Question.objects.get(id=id)
+        ans = Answer.objects.filter(question_id=id)
+        tags = Tag.objects.filterByQuestionCount()[:10]
+        if request.method == "GET":
+            answer_form = AnswerForm()
+        if request.method == "POST":
+            answer_form = AnswerForm(request.POST)
+            if answer_form.is_valid():
+                text = answer_form.cleaned_data['text']
+                a = Answer(text =  text, author = request.user, question  = q, rating = 0)
+                a.save()
+            answer_form.clean()
+    except:
+        return HttpResponse(status = 404)
+    
+    return render(request, "question.html", {"question": q, "answers": ans, "form": answer_form, "tags": tags})
 
 def hot(request):
     questions = Question.objects.returnBest()
     q = paginate(questions, request)
-    return render(request, "hot.html", {"questions": q})
+    tags = Tag.objects.filterByQuestionCount()[:10]
+    return render(request, "hot.html", {"questions": q, "tags": tags})
 
 def tag(request, s:str):
     try:
@@ -43,22 +55,30 @@ def tag(request, s:str):
     except:
         return HttpResponse(status = 404)
     questions = Question.objects.FilterByTag(newTag)
+    tags = Tag.objects.filterByQuestionCount()[:10]
     q = paginate(questions, request)
-    return render(request, "tag.html", {"questions": q, "tag": newTag.name})
+    return render(request, "tag.html", {"questions": q, "tag": newTag.name, "tags": tags})
 
 def Login(request):
+    tags = Tag.objects.filterByQuestionCount()[:10]
     if request.method == "GET":
         user_form = LoginForm()
+        cache.set('next', request.GET.get('next', None))
     if request.method == "POST":
         user_form = LoginForm(request.POST)
         if user_form.is_valid():
             user = authenticate(request, **user_form.cleaned_data)
             if user:
                 login(request, user)
+                next_url = cache.get('next')
+                if next_url:
+                    cache.delete('next')
+                    return redirect(next_url)
                 return redirect(reverse("index"))
-    return render(request, "login.html", {"form": user_form})
+    return render(request, "login.html", {"form": user_form, "tags": tags})
 
 def signup(request):
+    tags = Tag.objects.filterByQuestionCount()[:10]
     if request.method == "GET":
         user_form = SignUpForm()
     if request.method == "POST":
@@ -73,10 +93,11 @@ def signup(request):
                 p = Profile(user = user)
                 p.save()
                 return redirect(reverse("index"))
-    return render(request, "signup.html", {"form": user_form})
+    return render(request, "signup.html", {"form": user_form, "tags": tags})
 
 @login_required(login_url = 'login')
 def ask(request):
+    poptags = Tag.objects.filterByQuestionCount()[:10]
     if request.method == "GET":
         question_form = QuestionForm()
     if request.method == "POST":
@@ -87,14 +108,30 @@ def ask(request):
             tags = question_form.cleaned_data['tags']
             q = Question(title=title, text=text, author=request.user, rating=0)
             q.save()
+
+            tagList = []
+
             for tag in tags:
+                try:
+                    t = Tag.objects.get(name = tag)
+                except:
+                    t = Tag(name = tag, questionsCount = 0)
+                    t.save()
+                t.questionsCount += 1
+                t.save()
+                tagList.append(t)
+                
+            for tag in tagList:
                 q.tags.add(tag)
-                q.save()
+            q.save()
+
             if q:
                 return redirect(f"question/{q.id}")
-    return render(request, "ask.html", {"form": question_form})
+    return render(request, "ask.html", {"form": question_form, "tags": poptags})
 
+@login_required(login_url = 'login')
 def settings(request):
+    tags = Tag.objects.filterByQuestionCount()[:10]
     if request.method == "GET":
         user_form = SettingsForm(initial={"username": request.user.username, "email":request.user.email})
     if request.method == "POST":
@@ -112,4 +149,4 @@ def settings(request):
                     user.set_password(password)
                 user.email = email
                 user.save()
-    return render(request, "settings.html", {"form": user_form})
+    return render(request, "settings.html", {"form": user_form, "tags": tags})

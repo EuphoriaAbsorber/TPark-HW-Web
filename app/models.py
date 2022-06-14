@@ -18,8 +18,16 @@ class QuestionManager(models.Manager):
     def returnHot(self):
         return self.order_by('-release_date')
 
+class TagManager(models.Manager):
+    def filterByQuestionCount(self):
+        return self.order_by('-questionsCount')
+
 class Tag(models.Model):
     name = models.CharField(max_length = 40)
+    questionsCount = models.IntegerField(default=0)
+
+    objects = TagManager()
+
     def __str__(self):
         return f"{self.name}"
 
@@ -82,6 +90,6 @@ class LikeQuestion(models.Model):
     value = models.IntegerField(default=0)
 
 class LikeAnswer(models.Model):
-    question = models.ForeignKey(Answer, models.CASCADE)
+    answer = models.ForeignKey(Answer, models.CASCADE)
     user = models.ForeignKey(User, models.CASCADE)
     value = models.IntegerField(default=0)
