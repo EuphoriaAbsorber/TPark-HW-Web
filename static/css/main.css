@@ -137,3 +137,16 @@ a:hover{
   flex-wrap: wrap;
   width: fit-content;
 }
+
+.btn-like{
+  padding:2px;
+  display: flex;
+  border: black solid 1px;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 25px;
+  height: 25px;
+  margin:5px;
+  border-radius:2px;
+}

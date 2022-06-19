@@ -76,22 +76,34 @@ class AnswerForm(forms.ModelForm):
         data = self.cleaned_data['text']
         return data
 
-class SettingsForm(forms.Form):
-    username = forms.CharField(max_length = 40, required=False)
+class SettingsForm(forms.ModelForm):
+    username = forms.CharField(max_length = 40, required=False, disabled = True, label="Username")
     email = forms.CharField(max_length = 40, required=False)
     password0 = forms.CharField(max_length = 40, label='Old Password', widget=forms.PasswordInput(), required=False)
     password = forms.CharField(max_length = 40, label='New Password', widget=forms.PasswordInput(), required=False)
     password2 = forms.CharField(max_length = 40, label='Repeat New Password', widget=forms.PasswordInput(), required=False)
+    avatar = forms.ImageField(required=False)
 
-    def clean_username(self):
+    class Meta:
+        model = Profile
+        fields = ["username", "email", "password0", "password", "password2", "avatar"]
+
+    def saveAvatar(self):
+        profile = super().save()
+        profile.avatar = self.cleaned_data['avatar']
+        profile.save()
+
+    def clean_curUsername(self):
         data = self.cleaned_data['username']
-        dataPassword = self.data['password0']
-        if User.objects.filter(username=data).exists() and not authenticate(username=data,password=dataPassword):
-            raise forms.ValidationError("This username is already used")
+        #dataPassword = self.data['password0']
+        #if User.objects.filter(username=data).exists() and not authenticate(username=data,password=dataPassword):
+        #    raise forms.ValidationError("This username is already used")
         return data
 
     def clean_password0(self):
         dataPassword = self.cleaned_data['password0']
+        if len(dataPassword) < 1:
+            raise ValidationError("Enter your password to change settings")
         return dataPassword
 
     def clean_password(self):
@@ -106,3 +118,9 @@ class SettingsForm(forms.Form):
         if dataPassword != dataPassword2:
             raise ValidationError("Passwords do not match")
         return dataPassword2
+
+    def clean_avatar(self):
+        data = self.cleaned_data['avatar']
+        if not data:
+            raise ValidationError("No file for avatar")
+        return data

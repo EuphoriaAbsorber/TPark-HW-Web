@@ -4,19 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, models.CASCADE)
-    avatar = models.ImageField(blank=True)
+    avatar = models.ImageField(default = "ava.png", upload_to = 'avatar/%Y/%m/%d/')
     def __str__(self):
         return f"{self.user.username}"
-
-class QuestionManager(models.Manager):
-    def FilterByTag(self, newTag):
-        return self.filter(tags = newTag.id)
-
-    def returnBest(self):
-        return self.order_by('-rating')
-
-    def returnHot(self):
-        return self.order_by('-release_date')
 
 class TagManager(models.Manager):
     def filterByQuestionCount(self):
@@ -30,6 +20,19 @@ class Tag(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+        
+class QuestionManager(models.Manager):
+    def FilterByTag(self, newTag):
+        return self.filter(tags = newTag.id)
+
+    def returnBest(self):
+        return self.order_by('-rating')
+
+    def returnHot(self):
+        return self.order_by('-release_date')
+    
+    
+
 
 class Question(models.Model):
     title = models.CharField(max_length = 40)
@@ -44,16 +47,15 @@ class Question(models.Model):
     def __str__(self):
         return f"{self.title}"
 
-    def rateIncrease(self):
-        self.rating += 1
-        self.save()
-
-    def rateDecrease(self):
-        self.rating -= 1
+    def updateRating(self, rate):
+        self.rating += rate
         self.save()
 
     def getTags(self):
         return self.tags
+
+    def returnLikes(self):
+        return self.likequestion_set.all()
 
 class AnswerManager(models.Manager):
     def filterByRate(self):
@@ -65,19 +67,15 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, models.CASCADE)
     release_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(blank=True, null=True)
-    isCorrect = models.BooleanField(blank=True, null=True)
+    isCorrect = models.BooleanField(default=False)
 
     objects = AnswerManager()
 
     def __str__(self):
         return f"{self.author}'s answer"
 
-    def rateIncrease(self):
-        self.rating += 1
-        self.save()
-
-    def rateDecrease(self):
-        self.rating -= 1
+    def updateRating(self, rate):
+        self.rating += rate
         self.save()
 
     def changeCorrectState(self):

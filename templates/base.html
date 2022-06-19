@@ -3,6 +3,7 @@
 <html lang="en" class="h-100">
 
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Base">
@@ -30,7 +31,8 @@
       </form>
       
       <div class="topbar-right-panel">
-        <img class="avatar" src="{% static 'img/ava.png' %}">
+        <img class="avatar" src="{{user.profile.avatar.url}}">
+        <!-- src="{% static 'img/ava.png' %} -->
 
         <div style="flex-direction: column; margin-left: 10px; ">
           <div class="nickname">{{user.get_username}}</div>
@@ -89,6 +91,8 @@
     </div>
   </div>
 
+<script src="{% static 'js/like.js' %}"></script>
 </body>
 
 </html>
+

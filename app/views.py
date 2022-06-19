@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.core.cache import cache
 from app.models import *
 from app.forms import *
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.defaults import page_not_found
 
@@ -133,20 +133,53 @@ def ask(request):
 def settings(request):
     tags = Tag.objects.filterByQuestionCount()[:10]
     if request.method == "GET":
-        user_form = SettingsForm(initial={"username": request.user.username, "email":request.user.email})
+        user_form = SettingsForm(initial={"username": request.user.username, "email":request.user.email, "avatar": request.user.profile.avatar})
     if request.method == "POST":
-        user_form = SettingsForm(request.POST)
+        user_form = SettingsForm(request.POST, files = request.FILES, instance = request.user.profile, initial={"username": request.user.username, "email":request.user.email, "avatar": request.user.profile.avatar})
         if user_form.is_valid():
-            username = user_form.cleaned_data['username']
             password0 = user_form.cleaned_data['password0']
             password = user_form.cleaned_data['password']
-            email = user_form.cleaned_data['email']
             user1 = authenticate(username=request.user.username, password=password0)
             if user1:
                 user = request.user
-                user.username = username
                 if len(password) > 0:
                     user.set_password(password)
-                user.email = email
-                user.save()
+                    user.save()
+                user_form.saveAvatar()
+                return redirect(reverse("settings"))
     return render(request, "settings.html", {"form": user_form, "tags": tags})
+
+@login_required(login_url = 'login')
+def likes(request):
+    question_id = request.POST["question_id"]
+    like_type = request.POST["like_type"]
+    try:
+        q = Question.objects.get(id=question_id)
+        # try:
+        #     like = LikeQuestion.objects.filter(question__pk=question_id).get(user=request.user)
+        #     value = like.value
+        #     like.delete()
+        #     q.updateRating((-1)*value)
+        # except:
+        like = LikeQuestion.objects.create(user=request.user, question=q, value=int(like_type))
+        like.save()
+        q.updateRating(like.value)
+        return JsonResponse({"new_rating":q.rating})
+    except:
+        return JsonResponse({"error_code":404})
+
+@login_required(login_url = 'login')
+def markAnswer(request):
+    question_id = request.POST["question_id"]
+    answer_id = request.POST["answer_id"]
+    try:
+        q = Question.objects.get(id=question_id)
+        a = Answer.objects.get(id=answer_id)
+        if q.author.id == request.user.id:
+            a.isCorrect = not a.isCorrect
+            a.save()
+            return JsonResponse({"is_correct":answer_id})
+        else:
+            return JsonResponse({"error_code":403})
+    except:
+        return JsonResponse({"error_code":404})

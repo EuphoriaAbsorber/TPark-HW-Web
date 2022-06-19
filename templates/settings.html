@@ -4,16 +4,19 @@
 
 {% block content%}
 <h2>Profile Settings</h2>
-<form style="width: 100%;" action = "/settings" method = "POST">
+<form style="width: 100%;" action = "/settings" method = "POST" enctype = "multipart/form-data">
     {% csrf_token %}
     <hr>
     <div>{% bootstrap_form form %}</div>
     <hr>
-    <div class="mb-3">
+    <!-- <div>{{request.user.profile.avatar.url}}</div> -->
+    <img src = "{{request.user.profile.avatar.url}}" width="100px">
+    <hr>
+    <!-- <div class="mb-3">
         <label class="form-label">Upload avatar</label>
         <input class="form-control" readonly hidden>
         <button class="btn btn-outline-success">Choose file</button>
-    </div>
+    </div> -->
 
     <button type="submit" class="btn btn-outline-success">Save changes</button>
 </form>

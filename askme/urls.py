@@ -19,6 +19,8 @@ from app import views
 from django.contrib.auth.views import LogoutView
 
 from askme.settings import LOGOUT_REDIRECT_URL
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +33,7 @@ urlpatterns = [
     path('tag/<str:s>', views.tag, name="tag"),
     path('logout/', LogoutView.as_view(next_page = LOGOUT_REDIRECT_URL), name = "logout"),
     path('settings', views.settings, name="settings"),
-    re_path(r'^', views.handler404),
-]
+    path('likes/', views.likes, name = "likes"),
+    path('mark/', views.markAnswer, name = "markAnswer"),
+    #re_path(r'^', views.handler404),
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

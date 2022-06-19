@@ -2,11 +2,30 @@
 <div class="question-item" style="border:none">
     <div class="av_and_counter">
         <img class="avatar-question" style="width: 100px; height: 100px;"
-        src="{% static 'img/ava.png' %}">
-        <div class="counter">
-            <div style="margin:5px;">{{question.rating}}</div>
-            <button class="pagebtn">+</button>
-            <button class="pagebtn">-</button>
+         src="{{question.author.profile.avatar.url}}">
+         <div class="counter">
+            <div style="margin:5px;" id="qRating{{question.id}}">{{question.rating}}</div>
+            {% if user.is_authenticated %}
+                {% csrf_token %}
+                {% for like in question.returnLikes %}
+                    {% if like.user == user %}
+                        {% if like.value == 1 %}
+                        <button disabled class="btn-like" type="button" style="background-color: #006b39">+</button>
+                        <button disabled class="btn-like" type="button">-</button>
+                        {% else %}
+                        <button disabled class="btn-like" type="button" >+</button>
+                        <button disabled class="btn-like" type="button" style="background-color: #006b39">-</button>
+                        {% endif %}
+                    {% elif like.id == question.returnLikes.last.id %}
+                    <button id="btnLike{{question.id}}" class="btn-like" data-id="{{question.id}}" data-type="1" type="button" >+</button>
+                    <button id="btnDislike{{question.id}}" class="btn-like" data-id="{{question.id}}" data-type="-1" type="button">-</button>
+                    {% endif %}
+                {% endfor %}
+                {% if question.returnLikes.count == 0 %}
+                <button id="btnLike{{question.id}}" class="btn-like" data-id="{{question.id}}" data-type="1" type="button" >+</button>
+                <button id="btnDislike{{question.id}}" class="btn-like" data-id="{{question.id}}" data-type="-1" type="button">-</button>
+                {% endif %}    
+            {% endif %}
         </div>
 
     </div>
